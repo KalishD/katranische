@@ -1,24 +1,45 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Методики необходимые для проекта:
 
-Things you may want to cover:
+---=-=-=-=-=-=- Grid/List Toggle -=-=-=-=-=-=---
 
-* Ruby version
+### In controller
 
-* System dependencies
+def index
+  # ... code here
+  @partial = params[:view] || "default" # "grid", "list", etc.
+end
+### In index.html.erb:
 
-* Configuration
+<%= render @partial %>
 
-* Database creation
+_grid.html.erb, _list.html.erb, and _default.html.erb
 
-* Database initialization
+---### Edit
 
-* How to run the test suite
+### In controller
 
-* Services (job queues, cache servers, search engines, etc.)
+def index
+  @partial = whitelisted_partial || 'default'
+end
 
-* Deployment instructions
+def whitelisted_partial
+  %w(grid list).detect { |str| str == params[:view] }
+end 
 
-* ...
+render partial: @partial, locals: { product: @product}
+
+<%= link_to "Grid", products_path(view: "grid") %>
+<%= link_to "List", products_path(view: "list") %>
+---=-=-=-=-=-=- Sticky Sidebar -=-=-=-=-=-=---
+
+### 
+Search;
+Accordion:
+- List of categories --default
+- List of brands;
+
+---=-=-=-=-=-=- Ajaxify New/Create action -=-=-=-=-=-=---
+
+https://rubyplus.com/articles/4211-Using-Ajax-and-jQuery-in-Rails-5-Apps
